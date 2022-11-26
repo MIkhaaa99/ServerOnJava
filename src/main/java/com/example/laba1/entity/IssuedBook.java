@@ -14,23 +14,45 @@ public class IssuedBook {
     @Column(name = "id")
     public Integer id;
 
-    @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn (name="book_cipher", nullable = false)
+    @Column(name = "book_cipher")
+    public Integer bookCipher;
+
+    @ManyToOne (optional=false, cascade=CascadeType.REMOVE)
+    @JoinColumn (name="book_cipher", nullable = false, updatable = false, insertable = false)
     public Book book;
 
-    @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn (name="library_card", nullable = false)
+    @Column(name = "library_card")
+    public Integer libraryCard;
+
+    public Integer getBookCipher() {
+        return bookCipher;
+    }
+
+    public void setBookCipher(Integer bookCipher) {
+        this.bookCipher = bookCipher;
+    }
+
+    public Integer getLibraryCard() {
+        return libraryCard;
+    }
+
+    public void setLibraryCard(Integer libraryCard) {
+        this.libraryCard = libraryCard;
+    }
+
+    @ManyToOne (optional=false, cascade=CascadeType.REMOVE)
+    @JoinColumn (name="library_card", nullable = false, updatable = false, insertable = false)
     public Reader reader;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "UTC")
     @Column(name = "date_of_issue")
     public Date dateOfIssue;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "UTC")
     @Column(name = "date_of_return")
     public Date dateOfReturn;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "UTC")
     @Column(name = "date_of_actual_return")
     public Date dateOfActualReturn;
 

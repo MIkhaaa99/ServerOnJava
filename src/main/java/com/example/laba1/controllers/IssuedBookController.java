@@ -1,17 +1,14 @@
 package com.example.laba1.controllers;
 
 import com.example.laba1.entity.IssuedBook;
-import com.example.laba1.entity.Reader;
 import com.example.laba1.service.IssuedBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class IssuedBookController {
@@ -26,7 +23,26 @@ public class IssuedBookController {
 
     @PostMapping("/issuedBooks")
     public ResponseEntity postIssuedBook(@RequestBody IssuedBook issuedBook) {
-        issuedBookService.save(issuedBook);
+        try {
+            issuedBookService.save(issuedBook);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
         return ResponseEntity.status(HttpStatus.OK).body("Success!");
+    }
+
+    @PatchMapping("/issuedBooks/{id}")
+    public ResponseEntity patchIssuedBooks(@RequestBody Map<String, Object> updates, @PathVariable("id") Integer id) {
+        try {
+            issuedBookService.save(updates, id);
+            return ResponseEntity.status(HttpStatus.OK).body("Success!");
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
